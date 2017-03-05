@@ -10,11 +10,13 @@ int main(){
   unsigned long white = WhitePixel(dsp,screenNumber);
   unsigned long black = BlackPixel(dsp,screenNumber);
 
+  unsigned long width = 200;
+  unsigned long height = 200;
 
   Window win = XCreateSimpleWindow(dsp,
                                DefaultRootWindow(dsp),
                                50, 50,   // origin
-                               200, 200, // size
+                               width, height, // size
                                0, black, // border
                                white );  // backgd
 
@@ -33,8 +35,8 @@ int main(){
      XSetForeground( dsp, gc, black );
 
 
-     XDrawLine(dsp, win, gc, 10, 10,190,190); //from-to
-     XDrawLine(dsp, win, gc, 10,190,190, 10); //from-to
+     XDrawLine(dsp, win, gc, 10, 10, width - 10, height - 10); //from-to
+     XDrawLine(dsp, win, gc, 10,height - 10,width - 10, 10); //from-to
 
 
      eventMask = ButtonPressMask|ButtonReleaseMask;
