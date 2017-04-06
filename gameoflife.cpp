@@ -7,8 +7,8 @@ int main() {
    }
 
    int screenNumber = DefaultScreen(dsp);
-   unsigned long white = WhitePixel(dsp,screenNumber);
-   unsigned long black = BlackPixel(dsp,screenNumber);
+   unsigned long white = WhitePixel(dsp, screenNumber);
+   unsigned long black = BlackPixel(dsp, screenNumber);
 
    unsigned long width = 200;
    unsigned long height = 200;
@@ -18,18 +18,18 @@ int main() {
                                     50, 50,   // origin
                                     width, height, // size
                                     0, black, // border
-                                    white );  // backgd
-   XMapWindow( dsp, win );
+                                    white);  // backgd
+   XMapWindow(dsp, win);
 
    int x11_fd = ConnectionNumber(dsp);
    fd_set in_fds;
    struct timeval tick_timer;
 
-   long eventMask = StructureNotifyMask|PropertyChangeMask;
+   long eventMask = StructureNotifyMask | PropertyChangeMask;
    XSelectInput(dsp, win, eventMask);
 
    XEvent evt;
-   do {
+   while (1) {
       if (evt.type == MapNotify || evt.type == ConfigureNotify)
       {
          GC gc = XCreateGC(dsp, win,
@@ -45,7 +45,7 @@ int main() {
          XSetBackground(dsp, gc, white);
          XSetForeground(dsp, gc, black);
          XDrawLine(dsp, win, gc, 10, 10, width - 10, height - 10); //from-to
-         XDrawLine(dsp, win, gc, 10,height - 10,width - 10, 10); //from-to
+         XDrawLine(dsp, win, gc, 10, height - 10, width - 10, 10); //from-to
       }
 
       FD_ZERO(&in_fds);
@@ -66,7 +66,7 @@ int main() {
             break;
          }
       }
-   } while(1);
+   }
 
    XDestroyWindow(dsp, win);
    XCloseDisplay(dsp);
