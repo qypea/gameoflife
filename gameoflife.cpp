@@ -31,7 +31,8 @@ int main() {
    fps.tv_sec = 0;
    tick_timer = fps;
 
-   long eventMask = StructureNotifyMask | PropertyChangeMask;
+   long eventMask = StructureNotifyMask | PropertyChangeMask
+                     | KeyPressMask;
    XSelectInput(dsp, win, eventMask);
 
    XEvent evt;
@@ -44,12 +45,12 @@ int main() {
       bool redraw = false;
 
       // Deal with events
-      while (XPending(dsp))
+      if (XPending(dsp))
       {
          XNextEvent(dsp, &evt);   // calls XFlush()
-         if (evt.type == DestroyNotify)
+         if (evt.type == KeyPress)
          {
-            fprintf(stderr, "destroyed\n");
+            fprintf(stderr, "exiting\n");
             break;
          }
 
