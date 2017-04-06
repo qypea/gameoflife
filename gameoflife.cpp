@@ -77,8 +77,7 @@ int main() {
                            0,        // mask of values
                            NULL);    // array of values
 
-         XSetForeground(dsp, gc, white);
-         XFillRectangle(dsp, win, gc, 0, 0, width, height);
+         XClearWindow(dsp, win);
          XSetForeground(dsp, gc, black);
          XDrawLine(dsp, win, gc, 10, 10, width - 10, height - 10); //from-to
          XDrawLine(dsp, win, gc, 10, height - 10, width - 10, 10); //from-to
