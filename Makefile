@@ -1,6 +1,6 @@
 
 
-CXXFLAGS = -I /usr/X11/include -L /usr/X11/lib
+CXXFLAGS = -I /usr/X11/include -L /usr/X11/lib -Wall -Wextra -Werror
 LDLIBS = -lX11
 
 TARGETS=gameoflife
