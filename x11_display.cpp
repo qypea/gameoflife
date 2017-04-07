@@ -36,6 +36,11 @@ void X11Display::setNext(int x, int y, bool value) {
 }
 
 bool X11Display::getCurrent(int x, int y) {
+    if (x < 0 || y < 0
+            || x >= static_cast<int>(width_)
+            || y >= static_cast<int>(height_)) {
+        return false;
+    }
     return current_[x][y];
 }
 
