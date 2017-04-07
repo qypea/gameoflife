@@ -7,7 +7,8 @@ TARGETS=gameoflife
 
 all: $(TARGETS)
 
-gameoflife: gameoflife.cpp
+gameoflife: main.o x11_display.o
+	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
-	rm -f $(TARGETS)
+	rm -f $(TARGETS) *.o
