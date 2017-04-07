@@ -70,10 +70,10 @@ void X11Display::update() {
     XClearWindow(dsp_, next_);
 }
 
-int X11Display::width() {
+size_t X11Display::width() {
     return width_;
 }
 
-int X11Display::height() {
+size_t X11Display::height() {
     return height_;
 }

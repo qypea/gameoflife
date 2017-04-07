@@ -13,8 +13,8 @@ class X11Display {
 
         void update();
 
-        int width();
-        int height();
+        size_t width();
+        size_t height();
 
     private:
         Display * dsp_;
@@ -23,8 +23,8 @@ class X11Display {
         Pixmap current_;
         GC gc_;
 
-        int width_;
-        int height_;
+        size_t width_;
+        size_t height_;
 
 }; // class X11Display
 
