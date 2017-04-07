@@ -1,13 +1,12 @@
 #include <X11/Xlib.h> // preceede most other headers!
-#include <stdio.h>
+#include <algorithm>
 
 #include "x11_display.hpp"
 
-#define PIXMAP_WIDTH 1920
-#define PIXMAP_HEIGHT 1080
-
 X11Display::X11Display(int width, int height) :
-        width_(width), height_(height)
+        width_(width), height_(height),
+        next_(width, std::vector<bool>(height, false)),
+        current_(width, std::vector<bool>(height, false))
 {
     dsp_ = XOpenDisplay(NULL);
 
@@ -23,51 +22,45 @@ X11Display::X11Display(int width, int height) :
                                 white);  // backgd
     XMapWindow(dsp_, win_);
 
-    next_ = XCreatePixmap(dsp_, win_, PIXMAP_WIDTH, PIXMAP_HEIGHT,
-                        DefaultDepth(dsp_, screenNumber));
-    current_ = XCreatePixmap(dsp_, win_, PIXMAP_WIDTH, PIXMAP_HEIGHT,
-                        DefaultDepth(dsp_, screenNumber));
-
     gc_ = XCreateGC(dsp_, win_, 0, NULL);
     XSetForeground(dsp_, gc_, black);
 }
 
 X11Display::~X11Display() {
-    XFreePixmap(dsp_, next_);
-    XFreePixmap(dsp_, current_);
     XDestroyWindow(dsp_, win_);
     XCloseDisplay(dsp_);
 }
 
-void X11Display::setNext(int x, int y, int value) {
-    if (value == 1) {
-        XDrawPoint(dsp_, next_, gc_, x, y);
-    } else {
-        // Noop: We cleared the pixmap
-    }
+void X11Display::setNext(int x, int y, bool value) {
+    next_[x][y] = value;
 }
 
-int X11Display::getCurrent(int x, int y) {
-    // TODO
-    return 0;
+bool X11Display::getCurrent(int x, int y) {
+    return current_[x][y];
 }
 
 void X11Display::update() {
-    // Update attributes
+    // Update size
     XWindowAttributes attr;
     XGetWindowAttributes(dsp_, win_, &attr);
     width_ = attr.width;
     height_ = attr.height;
 
     // Copy next to current
-    XCopyArea(dsp_, next_, current_, gc_, 0, 0,
-                PIXMAP_WIDTH, PIXMAP_HEIGHT, 0, 0);
+    current_ = next_;
 
     // Redraw window
-    XCopyArea(dsp_, current_, win_, gc_, 0, 0, width_, height_, 0, 0);
+    XClearWindow(dsp_, win_);
+    for (size_t i = 0; i < std::min(next_.size(), width_); ++i) {
+        for (size_t j = 0; j < std::min(next_[i].size(), height_); ++j) {
+            if (next_[i][j]) {
+                XDrawPoint(dsp_, win_, gc_, i, j);
+            }
+        }
+    }
 
-    // Clear next
-    XClearWindow(dsp_, next_);
+    // Clear next, resize to new size
+    next_.resize(width_, std::vector<bool>(height_, false));
 }
 
 size_t X11Display::width() {

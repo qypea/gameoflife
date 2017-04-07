@@ -2,14 +2,15 @@
 #define X11_DISPLAY_HPP
 
 #include <X11/Xlib.h>
+#include <vector>
 
 class X11Display {
     public:
         X11Display(int width, int height);
         ~X11Display();
 
-        void setNext(int x, int y, int value);
-        int getCurrent(int x, int y);
+        void setNext(int x, int y, bool value);
+        bool getCurrent(int x, int y);
 
         void update();
 
@@ -19,12 +20,12 @@ class X11Display {
     private:
         Display * dsp_;
         Window win_;
-        Pixmap next_;
-        Pixmap current_;
         GC gc_;
 
         size_t width_;
         size_t height_;
+        std::vector<std::vector<bool> > next_;
+        std::vector<std::vector<bool> > current_;
 
 }; // class X11Display
 
