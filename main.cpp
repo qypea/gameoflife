@@ -57,7 +57,7 @@ int main() {
 
         ++frames;
         timeval_subtract(&elapsed, &start, &measureStart);
-        if (elapsed.tv_sec >= 10) {
+        if (elapsed.tv_sec > 1) {
             std::cerr << "fps: " << frames / elapsed.tv_sec << std::endl;
             gettimeofday(&measureStart, nullptr);
             frames = 0;
