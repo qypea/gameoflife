@@ -1,6 +1,8 @@
 #ifndef GAMEOFLIFE_HPP
 #define GAMEOFLIFE_HPP
 
+#include <cstdlib>
+
 template <typename Draw>
 class GameOfLife
 {
@@ -8,6 +10,7 @@ class GameOfLife
         GameOfLife(Draw & d) :
             drawer_(d)
         {
+            randomize();
         }
 
         void tick()
@@ -43,6 +46,16 @@ class GameOfLife
                             drawer_.setNext(x, y, 0);
                         }
                     }
+                }
+            }
+        }
+
+        void randomize() {
+            int width = drawer_.width();
+            int height = drawer_.height();
+            for (int i = 0; i < width; ++i) {
+                for (int j = 0; j < height; ++j) {
+                    drawer_.setNext(i, j, (rand() < RAND_MAX / 4));
                 }
             }
         }
