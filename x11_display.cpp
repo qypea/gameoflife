@@ -3,7 +3,7 @@
 
 #include "x11_display.hpp"
 
-X11Display::X11Display(int width, int height) :
+X11Display::X11Display(int width, int height, const std::string & title) :
         width_(width), height_(height),
         next_(width, std::vector<bool>(height, false)),
         current_(width, std::vector<bool>(height, false))
@@ -20,6 +20,7 @@ X11Display::X11Display(int width, int height) :
                                 width, height, // size
                                 0, black, // border
                                 white);  // backgd
+    XStoreName(dsp_, win_, title.c_str());
     XMapWindow(dsp_, win_);
 
     gc_ = XCreateGC(dsp_, win_, 0, NULL);

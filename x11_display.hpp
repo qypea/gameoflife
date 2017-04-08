@@ -3,10 +3,11 @@
 
 #include <X11/Xlib.h>
 #include <vector>
+#include <string>
 
 class X11Display {
     public:
-        X11Display(int width, int height);
+        X11Display(int width, int height, const std::string & title);
         ~X11Display();
 
         void setNext(int x, int y, bool value);

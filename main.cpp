@@ -35,7 +35,7 @@ timeval_subtract (struct timeval *result, struct timeval *x, struct timeval *y)
 }
 
 int main() {
-    X11Display display(600, 600);
+    X11Display display(600, 600, "gameoflife");
     GameOfLife<X11Display> game(display);
     display.update();
 
