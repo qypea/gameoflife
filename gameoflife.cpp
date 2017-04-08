@@ -16,30 +16,30 @@ void GameOfLife::tick()
     for (int x = 0; x < width; ++x) {
         for (int y = 0; y < height; ++y) {
             int peers = 0
-               + drawer_.getCurrent(x - 1, y - 1)
-               + drawer_.getCurrent(x - 1, y - 0)
-               + drawer_.getCurrent(x - 1, y + 1)
-               + drawer_.getCurrent(x - 0, y - 1)
-               + drawer_.getCurrent(x - 0, y + 1)
-               + drawer_.getCurrent(x + 1, y - 1)
-               + drawer_.getCurrent(x + 1, y - 0)
-               + drawer_.getCurrent(x + 1, y + 1);
+               + (drawer_.getCurrent(x - 1, y - 1) == X11Display::cell::plant)
+               + (drawer_.getCurrent(x - 1, y - 0) == X11Display::cell::plant)
+               + (drawer_.getCurrent(x - 1, y + 1) == X11Display::cell::plant)
+               + (drawer_.getCurrent(x - 0, y - 1) == X11Display::cell::plant)
+               + (drawer_.getCurrent(x - 0, y + 1) == X11Display::cell::plant)
+               + (drawer_.getCurrent(x + 1, y - 1) == X11Display::cell::plant)
+               + (drawer_.getCurrent(x + 1, y - 0) == X11Display::cell::plant)
+               + (drawer_.getCurrent(x + 1, y + 1) == X11Display::cell::plant);
 
-            int current = drawer_.getCurrent(x, y);
+            X11Display::cell current = drawer_.getCurrent(x, y);
             int tiebreaker = rand() < (RAND_MAX / 16);
-            if (current == 1) { // Currently living
+            if (current == X11Display::cell::plant) { // Currently living
                 if (peers < 2) { // Starved
-                    drawer_.setNext(x, y, 0);
+                    drawer_.setNext(x, y, X11Display::cell::empty);
                 } else if (peers > 3 + tiebreaker) { // Overcrowded
-                    drawer_.setNext(x, y, 0);
+                    drawer_.setNext(x, y, X11Display::cell::empty);
                 } else { // Happy
-                    drawer_.setNext(x, y, 1);
+                    drawer_.setNext(x, y, X11Display::cell::plant);
                 }
-            } else { // Currently dead
+            } else if (current == X11Display::cell::empty) { // Currently empty
                 if (peers == 3 || peers == 6) { // Born
-                    drawer_.setNext(x, y, 1);
+                    drawer_.setNext(x, y, X11Display::cell::plant);
                 } else {
-                    drawer_.setNext(x, y, 0);
+                    drawer_.setNext(x, y, X11Display::cell::empty);
                 }
             }
         }
@@ -51,7 +51,11 @@ void GameOfLife::randomize() {
     int height = drawer_.height();
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
-            drawer_.setNext(i, j, (rand() < RAND_MAX / 4));
+            if (rand() < RAND_MAX / 4) {
+                drawer_.setNext(i, j, X11Display::cell::plant);
+            } else {
+                drawer_.setNext(i, j, X11Display::cell::empty);
+            }
         }
     }
 }

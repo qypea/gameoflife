@@ -5,21 +5,24 @@
 
 X11Display::X11Display(int width, int height, const std::string & title) :
         width_(width), height_(height),
-        next_(new backing(width, halfBacking(height, false))),
-        current_(new backing(width, halfBacking(height, false)))
+        next_(new backing(width, halfBacking(height))),
+        current_(new backing(width, halfBacking(height)))
 {
     dsp_ = XOpenDisplay(NULL);
 
-    int screenNumber = DefaultScreen(dsp_);
-    unsigned long white = WhitePixel(dsp_, screenNumber);
-    unsigned long black = BlackPixel(dsp_, screenNumber);
+    screenNumber_ = DefaultScreen(dsp_);
+    white_ = WhitePixel(dsp_, screenNumber_);
+    black_ = BlackPixel(dsp_, screenNumber_);
+    green_ = 0x00FF00UL;
+    blue_ = 0x0000FFUL;
+    red_ = 0xFF0000UL;
 
     win_ = XCreateSimpleWindow(dsp_,
                                 DefaultRootWindow(dsp_),
                                 50, 50,   // origin
                                 width, height, // size
-                                0, black, // border
-                                white);  // backgd
+                                0, black_, // border
+                                white_);  // backgd
     XStoreName(dsp_, win_, title.c_str());
     XMapWindow(dsp_, win_);
 
@@ -30,8 +33,8 @@ X11Display::X11Display(int width, int height, const std::string & title) :
         XSetFont(dsp_, gc_, font_info->fid);
     }
 
-    XSetBackground(dsp_, gc_, white);
-    XSetForeground(dsp_, gc_, black);
+    XSetBackground(dsp_, gc_, white_);
+    XSetForeground(dsp_, gc_, black_);
 }
 
 X11Display::~X11Display() {
@@ -51,7 +54,7 @@ X11Display::cell X11Display::getCurrent(int x, int y) {
     if (x < 0 || y < 0
             || x >= static_cast<int>(width_)
             || y >= static_cast<int>(height_)) {
-        return false;
+        return X11Display::cell::empty;
     }
     return current_->at(x)[y];
 }
@@ -78,13 +81,22 @@ void X11Display::update() {
     XClearWindow(dsp_, win_);
     for (size_t i = 0; i < std::min(next_->size(), width_); ++i) {
         for (size_t j = 0; j < std::min(next_->at(i).size(), height_); ++j) {
-            if (next_->at(i)[j]) {
+            if (next_->at(i)[j] == X11Display::cell::plant) {
+                XSetForeground(dsp_, gc_, green_);
+            } else if (next_->at(i)[j] == X11Display::cell::herbivore) {
+                XSetForeground(dsp_, gc_, blue_);
+            } else if (next_->at(i)[j] == X11Display::cell::carnivore) {
+                XSetForeground(dsp_, gc_, red_);
+            }
+
+            if (next_->at(i)[j] != X11Display::cell::empty) {
                 XDrawPoint(dsp_, win_, gc_, i, j);
             }
         }
     }
 
     // Draw fps overlay
+    XSetForeground(dsp_, gc_, black_);
     XDrawImageString(dsp_, win_, gc_, 10, 20,
                      overlay_.c_str(), overlay_.size());
 

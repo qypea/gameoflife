@@ -11,7 +11,12 @@ class X11Display {
         X11Display(int width, int height, const std::string & title);
         ~X11Display();
 
-        typedef bool cell;
+        enum class cell {
+            empty,
+            plant,
+            herbivore,
+            carnivore
+        };
         void setNext(int x, int y, cell value);
         cell getCurrent(int x, int y);
 
@@ -25,6 +30,12 @@ class X11Display {
         Display * dsp_;
         Window win_;
         GC gc_;
+        int screenNumber_;
+        unsigned long white_;
+        unsigned long black_;
+        unsigned long green_;
+        unsigned long blue_;
+        unsigned long red_;
 
         size_t width_;
         size_t height_;
