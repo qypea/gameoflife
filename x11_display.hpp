@@ -11,8 +11,9 @@ class X11Display {
         X11Display(int width, int height, const std::string & title);
         ~X11Display();
 
-        void setNext(int x, int y, bool value);
-        bool getCurrent(int x, int y);
+        typedef bool cell;
+        void setNext(int x, int y, cell value);
+        cell getCurrent(int x, int y);
 
         void update();
 
@@ -27,7 +28,7 @@ class X11Display {
 
         size_t width_;
         size_t height_;
-        typedef std::vector<bool> halfBacking;
+        typedef std::vector<cell> halfBacking;
         typedef std::vector<halfBacking> backing;
         std::unique_ptr<backing> next_;
         std::unique_ptr<backing> current_;

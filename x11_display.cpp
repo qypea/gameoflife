@@ -43,11 +43,11 @@ void X11Display::overlay(const std::string & overlay) {
     overlay_ = overlay;
 }
 
-void X11Display::setNext(int x, int y, bool value) {
+void X11Display::setNext(int x, int y, X11Display::cell value) {
     next_->at(x)[y] = value;
 }
 
-bool X11Display::getCurrent(int x, int y) {
+X11Display::cell X11Display::getCurrent(int x, int y) {
     if (x < 0 || y < 0
             || x >= static_cast<int>(width_)
             || y >= static_cast<int>(height_)) {
