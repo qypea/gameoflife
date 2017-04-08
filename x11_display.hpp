@@ -17,6 +17,7 @@ class X11Display {
 
         size_t width();
         size_t height();
+        void overlay(const std::string & overlay);
 
     private:
         Display * dsp_;
@@ -27,6 +28,8 @@ class X11Display {
         size_t height_;
         std::vector<std::vector<bool> > next_;
         std::vector<std::vector<bool> > current_;
+
+        std::string overlay_;
 
 }; // class X11Display
 

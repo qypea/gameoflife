@@ -24,12 +24,23 @@ X11Display::X11Display(int width, int height, const std::string & title) :
     XMapWindow(dsp_, win_);
 
     gc_ = XCreateGC(dsp_, win_, 0, NULL);
+
+    XFontStruct *font_info = XLoadQueryFont(dsp_, "lucidasanstypewriter-12");
+    if (font_info != nullptr) {
+        XSetFont(dsp_, gc_, font_info->fid);
+    }
+
+    XSetBackground(dsp_, gc_, white);
     XSetForeground(dsp_, gc_, black);
 }
 
 X11Display::~X11Display() {
     XDestroyWindow(dsp_, win_);
     XCloseDisplay(dsp_);
+}
+
+void X11Display::overlay(const std::string & overlay) {
+    overlay_ = overlay;
 }
 
 void X11Display::setNext(int x, int y, bool value) {
@@ -73,6 +84,11 @@ void X11Display::update() {
             }
         }
     }
+
+    // Draw fps overlay
+    XDrawImageString(dsp_, win_, gc_, 10, 20,
+                     overlay_.c_str(), overlay_.size());
+
     XFlush(dsp_);
 }
 

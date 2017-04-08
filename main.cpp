@@ -11,6 +11,9 @@ int main() {
 
     while (true) {
         fps.start();
+        if (fps.fps() != 0) {
+            display.overlay(std::to_string(fps.fps()) + " fps");
+        }
 
         game.tick();
         display.update();
