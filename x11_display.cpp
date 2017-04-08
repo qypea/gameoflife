@@ -48,8 +48,17 @@ void X11Display::update() {
     // Update size
     XWindowAttributes attr;
     XGetWindowAttributes(dsp_, win_, &attr);
-    width_ = attr.width;
-    height_ = attr.height;
+
+    if (static_cast<size_t>(attr.width) != width_
+            || static_cast<size_t>(attr.height) != height_) {
+        width_ = attr.width;
+        height_ = attr.height;
+
+        next_.resize(width_);
+        for (size_t x = 0; x < width_; ++x) {
+            next_[x].resize(height_);
+        }
+    }
 
     // Copy next to current
     current_ = next_;
@@ -64,10 +73,6 @@ void X11Display::update() {
         }
     }
     XFlush(dsp_);
-
-    // Clear next, resize to new size
-    next_.resize(width_, std::vector<bool>(height_, false));
-    current_.resize(width_, std::vector<bool>(height_));
 }
 
 size_t X11Display::width() {
