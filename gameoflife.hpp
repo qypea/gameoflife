@@ -40,7 +40,7 @@ class GameOfLife
                             drawer_.setNext(x, y, 1);
                         }
                     } else { // Currently dead
-                        if (peers == 3) { // Born
+                        if (peers == 3 || peers == 6) { // Born
                             drawer_.setNext(x, y, 1);
                         } else {
                             drawer_.setNext(x, y, 0);
