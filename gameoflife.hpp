@@ -31,10 +31,11 @@ class GameOfLife
                        + drawer_.getCurrent(x + 1, y + 1);
 
                     int current = drawer_.getCurrent(x, y);
+                    int tiebreaker = rand() < (RAND_MAX / 16);
                     if (current == 1) { // Currently living
                         if (peers < 2) { // Starved
                             drawer_.setNext(x, y, 0);
-                        } else if (peers > 3) { // Overcrowded
+                        } else if (peers > 3 + tiebreaker) { // Overcrowded
                             drawer_.setNext(x, y, 0);
                         } else { // Happy
                             drawer_.setNext(x, y, 1);
