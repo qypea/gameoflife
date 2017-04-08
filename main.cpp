@@ -4,6 +4,7 @@
 int main() {
     X11Display display(200, 200);
     GameOfLife<X11Display> game(display);
+    display.update();
 
     struct timeval tickTimer;
     struct timeval fps;
