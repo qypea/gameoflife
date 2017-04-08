@@ -63,6 +63,7 @@ void X11Display::update() {
             }
         }
     }
+    XFlush(dsp_);
 
     // Clear next, resize to new size
     next_.resize(width_, std::vector<bool>(height_, false));
