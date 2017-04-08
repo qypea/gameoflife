@@ -67,6 +67,7 @@ void X11Display::update() {
 
     // Clear next, resize to new size
     next_.resize(width_, std::vector<bool>(height_, false));
+    current_.resize(width_, std::vector<bool>(height_));
 }
 
 size_t X11Display::width() {
