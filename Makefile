@@ -7,7 +7,7 @@ TARGETS=gameoflife
 
 all: $(TARGETS)
 
-gameoflife: main.o x11_display.o
+gameoflife: main.o x11_display.o fps_clock.o
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 clean:
