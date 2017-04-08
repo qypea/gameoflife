@@ -35,7 +35,7 @@ timeval_subtract (struct timeval *result, struct timeval *x, struct timeval *y)
 }
 
 int main() {
-    X11Display display(200, 200);
+    X11Display display(600, 600);
     GameOfLife<X11Display> game(display);
     display.update();
 
@@ -44,7 +44,7 @@ int main() {
     struct timeval start;
     struct timeval elapsed;
     struct timeval fps;
-    fps.tv_usec = 1000000 / 30;
+    fps.tv_usec = 1000000 / 15;
     fps.tv_sec = 0;
     tickTimer = fps;
 
