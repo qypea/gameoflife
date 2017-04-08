@@ -4,6 +4,7 @@
 #include <X11/Xlib.h>
 #include <vector>
 #include <string>
+#include <memory>
 
 class X11Display {
     public:
@@ -26,8 +27,10 @@ class X11Display {
 
         size_t width_;
         size_t height_;
-        std::vector<std::vector<bool> > next_;
-        std::vector<std::vector<bool> > current_;
+        typedef std::vector<bool> halfBacking;
+        typedef std::vector<halfBacking> backing;
+        std::unique_ptr<backing> next_;
+        std::unique_ptr<backing> current_;
 
         std::string overlay_;
 

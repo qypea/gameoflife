@@ -5,8 +5,8 @@
 
 X11Display::X11Display(int width, int height, const std::string & title) :
         width_(width), height_(height),
-        next_(width, std::vector<bool>(height, false)),
-        current_(width, std::vector<bool>(height, false))
+        next_(new backing(width, halfBacking(height, false))),
+        current_(new backing(width, halfBacking(height, false)))
 {
     dsp_ = XOpenDisplay(NULL);
 
@@ -44,7 +44,7 @@ void X11Display::overlay(const std::string & overlay) {
 }
 
 void X11Display::setNext(int x, int y, bool value) {
-    next_[x][y] = value;
+    next_->at(x)[y] = value;
 }
 
 bool X11Display::getCurrent(int x, int y) {
@@ -53,7 +53,7 @@ bool X11Display::getCurrent(int x, int y) {
             || y >= static_cast<int>(height_)) {
         return false;
     }
-    return current_[x][y];
+    return current_->at(x)[y];
 }
 
 void X11Display::update() {
@@ -66,20 +66,19 @@ void X11Display::update() {
         width_ = attr.width;
         height_ = attr.height;
 
-        next_.resize(width_);
+        next_->resize(width_);
+        current_->resize(width_);
         for (size_t x = 0; x < width_; ++x) {
-            next_[x].resize(height_);
+            next_->at(x).resize(height_);
+            current_->at(x).resize(height_);
         }
     }
 
-    // Copy next to current
-    current_ = next_;
-
     // Redraw window
     XClearWindow(dsp_, win_);
-    for (size_t i = 0; i < std::min(next_.size(), width_); ++i) {
-        for (size_t j = 0; j < std::min(next_[i].size(), height_); ++j) {
-            if (next_[i][j]) {
+    for (size_t i = 0; i < std::min(next_->size(), width_); ++i) {
+        for (size_t j = 0; j < std::min(next_->at(i).size(), height_); ++j) {
+            if (next_->at(i)[j]) {
                 XDrawPoint(dsp_, win_, gc_, i, j);
             }
         }
@@ -90,6 +89,9 @@ void X11Display::update() {
                      overlay_.c_str(), overlay_.size());
 
     XFlush(dsp_);
+
+    // Swap buffers
+    std::swap(next_, current_);
 }
 
 size_t X11Display::width() {
