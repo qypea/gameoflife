@@ -4,7 +4,7 @@
 
 int main() {
     X11Display display(600, 600, "gameoflife");
-    GameOfLife<X11Display> game(display);
+    GameOfLife game(display);
     display.update();
 
     FpsClock fps(15);
