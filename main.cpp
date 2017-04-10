@@ -2,7 +2,11 @@
 #include "x11_display.hpp"
 #include "fps_clock.hpp"
 
+#include <cstdlib>
+
 int main() {
+    srand(time(nullptr));
+
     X11Display display(600, 600, "gameoflife");
     GameOfLife game(display);
     display.update();
