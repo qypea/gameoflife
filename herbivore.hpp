@@ -22,7 +22,7 @@ class Herbivore
         const int size_ = 5;
         const int healthAtStart_ = 50;
         const int healthToReproduce_ = 100;
-        const int healthPerTick_ = 10;
+        const int healthPerTick_ = 1;
         const int vision_ = 50;
         const int movement_ = size_ * 2;
 
