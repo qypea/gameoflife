@@ -29,6 +29,7 @@ void Herbivore::tick()
                 drawer_.setNext(x_ + i, y_ + j, X11Display::cell::empty);
             }
         }
+        return;
     }
 
 
