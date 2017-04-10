@@ -19,6 +19,8 @@ class X11Display {
         };
         void setNext(int x, int y, cell value);
         cell getCurrent(int x, int y);
+        void setNext(int x1, int y1, int x2, int y2, cell value);
+        std::vector<cell> getCurrent(int x1, int y1, int x2, int y2);
 
         void update();
 

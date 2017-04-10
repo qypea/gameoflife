@@ -24,11 +24,9 @@ void Herbivore::tick()
         dead_ = true;
 
         // Erase self from map
-        for (int i = 0; i < size_; ++i) {
-            for (int j = 0; j < size_; ++j) {
-                drawer_.setNext(x_ + i, y_ + j, X11Display::cell::empty);
-            }
-        }
+        drawer_.setNext(x_, y_,
+                        x_ + size_, y_ + size_,
+                        X11Display::cell::empty);
         return;
     }
 
@@ -46,11 +44,9 @@ void Herbivore::tick()
     // Erase old location, path to new location
 
     // Update new location
-    for (int i = 0; i < size_; ++i) {
-        for (int j = 0; j < size_; ++j) {
-            drawer_.setNext(x_ + i, y_ + j, X11Display::cell::herbivore);
-        }
-    }
+    drawer_.setNext(x_, y_,
+                    x_ + size_, y_ + size_,
+                    X11Display::cell::herbivore);
 
     // No longer first tick
     first_ = false;

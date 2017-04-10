@@ -59,6 +59,37 @@ X11Display::cell X11Display::getCurrent(int x, int y) {
     return current_->at(x)[y];
 }
 
+void X11Display::setNext(int x1, int y1, int x2, int y2, cell value) {
+    if (x2 < x1) {
+        std::swap(x1, x2);
+    }
+    if (y2 < y1) {
+        std::swap(y1, y2);
+    }
+    for (int i = x1; i < x2; ++i) {
+        for (int j = y1; j < y2; ++j) {
+            setNext(i, j, value);
+        }
+    }
+}
+
+std::vector<X11Display::cell>
+X11Display::getCurrent(int x1, int y1, int x2, int y2) {
+    if (x2 < x1) {
+        std::swap(x1, x2);
+    }
+    if (y2 < y1) {
+        std::swap(y1, y2);
+    }
+    std::vector<cell> out;
+    for (int i = x1; i < x2; ++i) {
+        for (int j = y1; j < y2; ++j) {
+            out.push_back(getCurrent(i, j));
+        }
+    }
+    return out;
+}
+
 void X11Display::update() {
     // Update size
     XWindowAttributes attr;
