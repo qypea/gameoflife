@@ -26,6 +26,9 @@ class Herbivore
         const int vision_ = 50;
         const int movement_ = size_ * 2;
 
+
+        int scoreMove(int x1, int y1, int x2, int y2);
+
 }; // class herbivore
 
 #endif // HERBIVORE_HPP
