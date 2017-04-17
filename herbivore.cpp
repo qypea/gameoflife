@@ -12,6 +12,10 @@ Herbivore::Herbivore(X11Display & d) : drawer_(d)
     y_ = rand() % (drawer_.height() - size_);
 }
 
+bool Herbivore::dead() const {
+    return dead_;
+}
+
 int Herbivore::scoreMove(int x1, int y1, int x2, int y2) {
     int score = 0;
 

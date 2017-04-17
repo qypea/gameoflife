@@ -11,6 +11,8 @@ class Herbivore
         void tick();
         void randomize();
 
+        bool dead() const;
+
     private:
         X11Display & drawer_;
         int x_;
