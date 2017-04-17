@@ -1,5 +1,5 @@
 #include "gameoflife.hpp"
-#include "herbivore.hpp"
+#include "herd.hpp"
 #include "x11_display.hpp"
 #include "fps_clock.hpp"
 
@@ -10,7 +10,7 @@ int main() {
 
     X11Display display(600, 600, "gameoflife");
     GameOfLife game(display);
-    Herbivore herb(display);
+    Herd herbs(display);
     display.update();
 
     FpsClock fps(15);
@@ -22,7 +22,7 @@ int main() {
         }
 
         game.tick();
-        herb.tick();
+        herbs.tick();
         display.update();
 
         fps.finish();
