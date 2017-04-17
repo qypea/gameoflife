@@ -21,8 +21,14 @@ void Herd::tick()
             auto j = i;
             i++;
             members_.erase(j);
-            i--;
-            continue;
+            if (i == members_.end()) {
+                // end, so stop
+                break;
+            } else {
+                // Keep going through list
+                i--;
+                continue;
+            }
         }
 
         // TODO: If able to reproduce then do it
