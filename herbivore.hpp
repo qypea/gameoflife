@@ -24,7 +24,7 @@ class Herbivore
         const int healthToReproduce_ = 100;
         const int healthPerTick_ = 1;
         const int vision_ = size_ * 10;
-        const int movement_ = size_ * 2;
+        const int movement_ = size_ * 1;
 
 
         int scoreMove(int x1, int y1, int x2, int y2);
