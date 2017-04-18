@@ -7,6 +7,7 @@ class Herbivore
 {
     public:
         Herbivore(X11Display & d);
+        Herbivore(X11Display & d, int x, int y);
 
         void tick();
         void randomize();

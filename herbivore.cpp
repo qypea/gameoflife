@@ -3,7 +3,16 @@
 
 #include <cstdlib>
 
-Herbivore::Herbivore(X11Display & d) : drawer_(d)
+Herbivore::Herbivore(X11Display & d, int x, int y) : drawer_(d)
+{
+    health_ = healthAtStart_;
+    first_ = true;
+    dead_ = false;
+    x_ = x;
+    y_ = y;
+}
+
+Herbivore::Herbivore(X11Display & d): drawer_(d)
 {
     health_ = healthAtStart_;
     first_ = true;
