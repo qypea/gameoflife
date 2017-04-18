@@ -4,9 +4,8 @@
 
 #include <cstdlib>
 
-Herd::Herd(X11Display & d) : drawer_(d)
+Herd::Herd(X11Display & d, int count) : drawer_(d)
 {
-    int count = d.width() * d.height() / 20000;
     for (int i = 0; i < count; ++i) {
         members_.insert(std::shared_ptr<Herbivore>(new Herbivore(d)));
     }

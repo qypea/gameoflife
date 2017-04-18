@@ -9,7 +9,7 @@
 class Herd
 {
     public:
-        Herd(X11Display & d);
+        Herd(X11Display & d, int count);
 
         void tick();
 
