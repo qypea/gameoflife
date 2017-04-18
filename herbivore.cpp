@@ -98,7 +98,9 @@ void Herbivore::tick()
 
     int newX = x_;
     int newY = y_;
-    if (scoreBest == scoreNorth) {
+    if (scoreBest <= 0) {
+        // Noop: No good options
+    } else if (scoreBest == scoreNorth) {
         newY = y_ - movement_;
     } else if (scoreBest == scoreEast) {
         newX = x_ + movement_;
@@ -107,7 +109,7 @@ void Herbivore::tick()
     } else if (scoreBest == scoreWest) {
         newX = x_ - movement_;
     } else {
-        // Noop: No good options
+        // I'm confused
     }
 
     // Erase old location, path to new location
