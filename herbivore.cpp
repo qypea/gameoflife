@@ -75,12 +75,20 @@ void Herbivore::tick()
 
     // Decide which direction to move
     int scoreNorth = scoreMove(x_, y_,
+                                x_ + size_, y_ - movement_) * 10
+                    + scoreMove(x_, y_,
                                 x_ + size_, y_ - vision_);
     int scoreEast = scoreMove(x_ + size_, y_,
+                                x_ + size_ + movement_, y_ + size_) * 10
+                    + scoreMove(x_ + size_, y_,
                                 x_ + size_ + vision_, y_ + size_);
     int scoreSouth = scoreMove(x_, y_ + size_,
+                                x_ + size_, y_ + size_ + movement_) * 10
+                    + scoreMove(x_, y_ + size_,
                                 x_ + size_, y_ + size_ + vision_);
     int scoreWest = scoreMove(x_, y_,
+                                x_ - movement_, y_ + size_) * 10
+                    + scoreMove(x_, y_,
                                 x_ - vision_, y_ + size_);
     int scoreBest = 0; // < 0 is a bad option
     scoreBest = std::max(scoreBest, scoreNorth);
