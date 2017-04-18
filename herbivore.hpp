@@ -29,7 +29,7 @@ class Herbivore
         const int movement_ = size_ * 1;
 
 
-        int scoreMove(int x1, int y1, int x2, int y2);
+        int scoreMove(int x1, int y1, int x2, int y2) const;
 
 }; // class herbivore
 

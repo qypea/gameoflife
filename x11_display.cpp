@@ -50,7 +50,7 @@ void X11Display::setNext(int x, int y, X11Display::cell value) {
     next_->at(x)[y] = value;
 }
 
-X11Display::cell X11Display::getCurrent(int x, int y) {
+X11Display::cell X11Display::getCurrent(int x, int y) const {
     if (x < 0 || y < 0
             || x >= static_cast<int>(width_)
             || y >= static_cast<int>(height_)) {
@@ -74,7 +74,7 @@ void X11Display::setNext(int x1, int y1, int x2, int y2, cell value) {
 }
 
 std::vector<X11Display::cell>
-X11Display::getCurrent(int x1, int y1, int x2, int y2) {
+X11Display::getCurrent(int x1, int y1, int x2, int y2) const {
     if (x2 < x1) {
         std::swap(x1, x2);
     }

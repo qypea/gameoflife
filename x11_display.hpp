@@ -18,9 +18,9 @@ class X11Display {
             carnivore
         };
         void setNext(int x, int y, cell value);
-        cell getCurrent(int x, int y);
+        cell getCurrent(int x, int y) const;
         void setNext(int x1, int y1, int x2, int y2, cell value);
-        std::vector<cell> getCurrent(int x1, int y1, int x2, int y2);
+        std::vector<cell> getCurrent(int x1, int y1, int x2, int y2) const;
 
         void update();
 
