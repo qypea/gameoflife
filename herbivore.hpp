@@ -10,8 +10,6 @@ class Herbivore
         Herbivore(X11Display & d, int x, int y);
 
         void tick();
-        void randomize();
-
         bool dead() const;
 
     private:
