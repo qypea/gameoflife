@@ -30,9 +30,10 @@ void Herd::tick()
             }
         }
 
-        // TODO: If able to reproduce then do it
-
         // tick
-        (*i)->tick();
+        auto child = (*i)->tick();
+        if (child) {
+            members_.insert(child);
+        }
     }
 }

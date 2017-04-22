@@ -9,7 +9,7 @@ class Herbivore
         Herbivore(X11Display & d);
         Herbivore(X11Display & d, int x, int y);
 
-        void tick();
+        std::shared_ptr<Herbivore> tick();
         bool dead() const;
 
     private:

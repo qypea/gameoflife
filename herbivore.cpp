@@ -55,10 +55,11 @@ int Herbivore::scoreMove(int x1, int y1, int x2, int y2) const {
 }
 
 
-void Herbivore::tick()
+std::shared_ptr<Herbivore> Herbivore::tick()
 {
+    std::shared_ptr<Herbivore> ret = nullptr;
     if (dead_) {
-        return;
+        return ret;
     }
 
     // Use energy to live
@@ -70,16 +71,23 @@ void Herbivore::tick()
         drawer_.setNext(x_, y_,
                         x_ + size_, y_ + size_,
                         X11Display::cell::empty);
-        return;
+        return ret;
+    }
+
+    // Can't move or reproduce first tick
+    if (first_) {
+        first_ = false;
+        return ret;
     }
 
 
     // If reproducing then split health
     // Offspring will not move first tick so we won't be colliding
-    if (health_ >= healthToReproduce_ && !first_) {
+    if (health_ >= healthToReproduce_) {
         health_ = healthAtStart_;
+
+        ret = std::shared_ptr<Herbivore>(new Herbivore(drawer_, x_, y_));
     }
-    // TODO: Create offspring
 
 
     // Decide which direction to move
@@ -137,6 +145,5 @@ void Herbivore::tick()
                     x_ + size_, y_ + size_,
                     X11Display::cell::herbivore);
 
-    // No longer first tick
-    first_ = false;
+    return ret;
 }
