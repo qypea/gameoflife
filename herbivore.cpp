@@ -91,20 +91,27 @@ std::shared_ptr<Herbivore> Herbivore::tick()
 
 
     // Decide which direction to move
-    int scoreNorth = scoreMove(x_, y_,
-                                x_ + size_, y_ - movement_) * 10
+    int scoreNorthMove = scoreMove(x_, y_,
+                                   x_ + size_, y_ - movement_);
+    int scoreNorth = scoreNorthMove * 10
                     + scoreMove(x_, y_,
                                 x_ + size_, y_ - vision_);
-    int scoreEast = scoreMove(x_ + size_, y_,
-                                x_ + size_ + movement_, y_ + size_) * 10
+
+    int scoreEastMove = scoreMove(x_ + size_, y_,
+                                  x_ + size_ + movement_, y_ + size_);
+    int scoreEast = scoreEastMove * 10
                     + scoreMove(x_ + size_, y_,
                                 x_ + size_ + vision_, y_ + size_);
-    int scoreSouth = scoreMove(x_, y_ + size_,
-                                x_ + size_, y_ + size_ + movement_) * 10
+
+    int scoreSouthMove = scoreMove(x_, y_ + size_,
+                                   x_ + size_, y_ + size_ + movement_);
+    int scoreSouth = scoreSouthMove * 10
                     + scoreMove(x_, y_ + size_,
                                 x_ + size_, y_ + size_ + vision_);
-    int scoreWest = scoreMove(x_, y_,
-                                x_ - movement_, y_ + size_) * 10
+
+    int scoreWestMove = scoreMove(x_, y_,
+                                x_ - movement_, y_ + size_);
+    int scoreWest = scoreWestMove * 10
                     + scoreMove(x_, y_,
                                 x_ - vision_, y_ + size_);
     int scoreBest = 0; // < 0 is a bad option
@@ -119,12 +126,16 @@ std::shared_ptr<Herbivore> Herbivore::tick()
         // Noop: No good options
     } else if (scoreBest == scoreNorth) {
         newY = y_ - movement_;
+        health_ += scoreNorthMove;
     } else if (scoreBest == scoreEast) {
         newX = x_ + movement_;
+        health_ += scoreEastMove;
     } else if (scoreBest == scoreSouth) {
         newY = y_ + movement_;
+        health_ += scoreSouthMove;
     } else if (scoreBest == scoreWest) {
         newX = x_ - movement_;
+        health_ += scoreWestMove;
     } else {
         // I'm confused
     }
@@ -136,7 +147,6 @@ std::shared_ptr<Herbivore> Herbivore::tick()
     drawer_.setNext(x_, y_,
                     newX, newY,
                     X11Display::cell::empty);
-    health_ += scoreBest;
     x_ = newX;
     y_ = newY;
 
