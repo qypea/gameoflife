@@ -26,7 +26,7 @@ void GameOfLife::tick()
                + (drawer_.getCurrent(x + 1, y + 1) == X11Display::cell::plant);
 
             X11Display::cell current = drawer_.getCurrent(x, y);
-            int tiebreaker = rand() < (RAND_MAX / 16);
+            int tiebreaker = rand() < (RAND_MAX / 32);
             if (current == X11Display::cell::plant) { // Currently living
                 if (peers < 2) { // Starved
                     drawer_.setNext(x, y, X11Display::cell::empty);

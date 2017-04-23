@@ -10,7 +10,7 @@ int main() {
 
     X11Display display(600, 600, "gameoflife");
     GameOfLife game(display);
-    Herd herbs(display, 5);
+    Herd herbs(display, 1);
     display.update();
 
     FpsClock fps(15);
