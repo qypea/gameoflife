@@ -1,9 +1,10 @@
-#include "x11_display.hpp"
 #include "gameoflife.hpp"
+#include "x11_display.hpp"
 
 #include <cstdlib>
 
-GameOfLife::GameOfLife(X11Display & d) : drawer_(d)
+GameOfLife::GameOfLife(X11Display& d)
+    : drawer_(d)
 {
     randomize();
 }
@@ -15,15 +16,7 @@ void GameOfLife::tick()
 
     for (int x = 0; x < width; ++x) {
         for (int y = 0; y < height; ++y) {
-            int peers = 0
-               + (drawer_.getCurrent(x - 1, y - 1) == X11Display::cell::plant)
-               + (drawer_.getCurrent(x - 1, y - 0) == X11Display::cell::plant)
-               + (drawer_.getCurrent(x - 1, y + 1) == X11Display::cell::plant)
-               + (drawer_.getCurrent(x - 0, y - 1) == X11Display::cell::plant)
-               + (drawer_.getCurrent(x - 0, y + 1) == X11Display::cell::plant)
-               + (drawer_.getCurrent(x + 1, y - 1) == X11Display::cell::plant)
-               + (drawer_.getCurrent(x + 1, y - 0) == X11Display::cell::plant)
-               + (drawer_.getCurrent(x + 1, y + 1) == X11Display::cell::plant);
+            int peers = 0 + (drawer_.getCurrent(x - 1, y - 1) == X11Display::cell::plant) + (drawer_.getCurrent(x - 1, y - 0) == X11Display::cell::plant) + (drawer_.getCurrent(x - 1, y + 1) == X11Display::cell::plant) + (drawer_.getCurrent(x - 0, y - 1) == X11Display::cell::plant) + (drawer_.getCurrent(x - 0, y + 1) == X11Display::cell::plant) + (drawer_.getCurrent(x + 1, y - 1) == X11Display::cell::plant) + (drawer_.getCurrent(x + 1, y - 0) == X11Display::cell::plant) + (drawer_.getCurrent(x + 1, y + 1) == X11Display::cell::plant);
 
             X11Display::cell current = drawer_.getCurrent(x, y);
             int tiebreaker = rand() < (RAND_MAX / 32);
@@ -46,7 +39,8 @@ void GameOfLife::tick()
     }
 }
 
-void GameOfLife::randomize() {
+void GameOfLife::randomize()
+{
     int width = drawer_.width();
     int height = drawer_.height();
     for (int i = 0; i < width; ++i) {

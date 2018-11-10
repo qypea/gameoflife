@@ -3,16 +3,15 @@
 
 #include "x11_display.hpp"
 
-class GameOfLife
-{
-    public:
-        GameOfLife(X11Display & d);
+class GameOfLife {
+public:
+    GameOfLife(X11Display& d);
 
-        void tick();
-        void randomize();
+    void tick();
+    void randomize();
 
-    private:
-        X11Display & drawer_;
+private:
+    X11Display& drawer_;
 
 }; // class gameoflife
 

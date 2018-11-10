@@ -1,10 +1,11 @@
-#include "x11_display.hpp"
-#include "herbivore.hpp"
 #include "herd.hpp"
+#include "herbivore.hpp"
+#include "x11_display.hpp"
 
 #include <cstdlib>
 
-Herd::Herd(X11Display & d, int count) : drawer_(d)
+Herd::Herd(X11Display& d, int count)
+    : drawer_(d)
 {
     for (int i = 0; i < count; ++i) {
         members_.insert(std::shared_ptr<Herbivore>(new Herbivore(d)));

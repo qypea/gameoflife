@@ -1,11 +1,12 @@
+#include "fps_clock.hpp"
 #include "gameoflife.hpp"
 #include "herd.hpp"
 #include "x11_display.hpp"
-#include "fps_clock.hpp"
 
 #include <cstdlib>
 
-int main() {
+int main()
+{
     srand(time(nullptr));
 
     X11Display display(600, 600, "gameoflife");

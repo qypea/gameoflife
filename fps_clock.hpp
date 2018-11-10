@@ -4,21 +4,21 @@
 #include <sys/time.h>
 
 class FpsClock {
-    public:
-        FpsClock(int limit);
+public:
+    FpsClock(int limit);
 
-        void start();
-        void finish();
+    void start();
+    void finish();
 
-        int fps() const;
+    int fps() const;
 
-    private:
-        int fps_;
-        int limit_;
-        int measureFrames_;
+private:
+    int fps_;
+    int limit_;
+    int measureFrames_;
 
-        struct timeval measureStart_;
-        struct timeval tickStart_;
+    struct timeval measureStart_;
+    struct timeval tickStart_;
 
 }; // class FpsClock
 

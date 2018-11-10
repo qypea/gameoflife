@@ -3,10 +3,11 @@
 
 #include "x11_display.hpp"
 
-X11Display::X11Display(int width, int height, const std::string & title) :
-        width_(width), height_(height),
-        next_(new backing(width, halfBacking(height))),
-        current_(new backing(width, halfBacking(height)))
+X11Display::X11Display(int width, int height, const std::string& title)
+    : width_(width)
+    , height_(height)
+    , next_(new backing(width, halfBacking(height)))
+    , current_(new backing(width, halfBacking(height)))
 {
     dsp_ = XOpenDisplay(NULL);
 
@@ -17,18 +18,16 @@ X11Display::X11Display(int width, int height, const std::string & title) :
     blue_ = 0x0000FFUL;
     red_ = 0xFF0000UL;
 
-    win_ = XCreateSimpleWindow(dsp_,
-                                DefaultRootWindow(dsp_),
-                                50, 50,   // origin
-                                width, height, // size
-                                0, black_, // border
-                                white_);  // backgd
+    win_ = XCreateSimpleWindow(dsp_, DefaultRootWindow(dsp_), 50, 50, // origin
+        width, height, // size
+        0, black_, // border
+        white_); // backgd
     XStoreName(dsp_, win_, title.c_str());
     XMapWindow(dsp_, win_);
 
     gc_ = XCreateGC(dsp_, win_, 0, NULL);
 
-    XFontStruct *font_info = XLoadQueryFont(dsp_, "lucidasanstypewriter-12");
+    XFontStruct* font_info = XLoadQueryFont(dsp_, "lucidasanstypewriter-12");
     if (font_info != nullptr) {
         XSetFont(dsp_, gc_, font_info->fid);
     }
@@ -37,29 +36,29 @@ X11Display::X11Display(int width, int height, const std::string & title) :
     XSetForeground(dsp_, gc_, black_);
 }
 
-X11Display::~X11Display() {
+X11Display::~X11Display()
+{
     XDestroyWindow(dsp_, win_);
     XCloseDisplay(dsp_);
 }
 
-void X11Display::overlay(const std::string & overlay) {
-    overlay_ = overlay;
-}
+void X11Display::overlay(const std::string& overlay) { overlay_ = overlay; }
 
-void X11Display::setNext(int x, int y, X11Display::cell value) {
+void X11Display::setNext(int x, int y, X11Display::cell value)
+{
     next_->at(x)[y] = value;
 }
 
-X11Display::cell X11Display::getCurrent(int x, int y) const {
-    if (x < 0 || y < 0
-            || x >= static_cast<int>(width_)
-            || y >= static_cast<int>(height_)) {
+X11Display::cell X11Display::getCurrent(int x, int y) const
+{
+    if (x < 0 || y < 0 || x >= static_cast<int>(width_) || y >= static_cast<int>(height_)) {
         return X11Display::cell::empty;
     }
     return current_->at(x)[y];
 }
 
-void X11Display::setNext(int x1, int y1, int x2, int y2, cell value) {
+void X11Display::setNext(int x1, int y1, int x2, int y2, cell value)
+{
     if (x2 < x1) {
         std::swap(x1, x2);
     }
@@ -73,8 +72,9 @@ void X11Display::setNext(int x1, int y1, int x2, int y2, cell value) {
     }
 }
 
-std::vector<X11Display::cell>
-X11Display::getCurrent(int x1, int y1, int x2, int y2) const {
+std::vector<X11Display::cell> X11Display::getCurrent(int x1, int y1, int x2,
+    int y2) const
+{
     if (x2 < x1) {
         std::swap(x1, x2);
     }
@@ -90,13 +90,13 @@ X11Display::getCurrent(int x1, int y1, int x2, int y2) const {
     return out;
 }
 
-void X11Display::update() {
+void X11Display::update()
+{
     // Update size
     XWindowAttributes attr;
     XGetWindowAttributes(dsp_, win_, &attr);
 
-    if (static_cast<size_t>(attr.width) != width_
-            || static_cast<size_t>(attr.height) != height_) {
+    if (static_cast<size_t>(attr.width) != width_ || static_cast<size_t>(attr.height) != height_) {
         width_ = attr.width;
         height_ = attr.height;
 
@@ -128,8 +128,7 @@ void X11Display::update() {
 
     // Draw fps overlay
     XSetForeground(dsp_, gc_, black_);
-    XDrawImageString(dsp_, win_, gc_, 10, 20,
-                     overlay_.c_str(), overlay_.size());
+    XDrawImageString(dsp_, win_, gc_, 10, 20, overlay_.c_str(), overlay_.size());
 
     XFlush(dsp_);
 
@@ -137,10 +136,6 @@ void X11Display::update() {
     std::swap(next_, current_);
 }
 
-size_t X11Display::width() {
-    return width_;
-}
+size_t X11Display::width() { return width_; }
 
-size_t X11Display::height() {
-    return height_;
-}
+size_t X11Display::height() { return height_; }

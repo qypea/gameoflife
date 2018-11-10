@@ -1,22 +1,21 @@
 #ifndef HERD_HPP
 #define HERD_HPP
 
-#include "x11_display.hpp"
 #include "herbivore.hpp"
+#include "x11_display.hpp"
 
 #include <set>
 
-class Herd
-{
-    public:
-        Herd(X11Display & d, int count);
+class Herd {
+public:
+    Herd(X11Display& d, int count);
 
-        void tick();
+    void tick();
 
-    private:
-        X11Display & drawer_;
+private:
+    X11Display& drawer_;
 
-        std::set<std::shared_ptr<Herbivore> > members_;
+    std::set<std::shared_ptr<Herbivore>> members_;
 
 }; // class herd
 
